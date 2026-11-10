@@ -187,3 +187,13 @@ h1 em{color:#477792}
   .floating-background i.downward-circle{border:1px solid #94a9c42b;background:#eaf0f714;animation-direction:alternate-reverse}
   .floating-background i.downward-circle:nth-child(even){border-width:2px;background:transparent}
 }
+
+/* Final bibliography slide. */
+.references-slide h1{margin-bottom:14px}
+.references{display:grid;grid-template-columns:1fr 1fr;gap:10px 44px;margin:0;padding-left:24px}
+.references li{font-size:16px;line-height:1.38;padding-left:4px;break-inside:avoid}
+.references li::marker{color:#7293ac;font-weight:700}
+.references a{color:var(--navy);font-size:14px;text-decoration:underline;text-underline-offset:2px}
+.references-slide .source{margin-top:18px}
+@media screen and (max-width:900px){.references{grid-template-columns:1fr;gap:12px}.references li{font-size:15px}}
+@media print{.references{grid-template-columns:1fr 1fr}}
