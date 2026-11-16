@@ -1,0 +1,936 @@
+<!doctype html>
+<html lang="mn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#142f4b">
+  <meta name="description" content="Ковид-19 цар тахлын үеийн бизнесийн байгууллагуудын өөрчлөлтийн удирдлага">
+  <title>Ковид-19 үеийн өөрчлөлтийн удирдлага</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --navy: #142f4b;
+      --blue: #547c9b;
+      --sky: #eaf2f8;
+      --ink: #263746;
+      --muted: #647687;
+      --gold: #92a9bb;
+      --line: #d9e3eb;
+      --paper: #fff;
+    }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; }
+    body {
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background: #e5ebf0;
+      color: var(--ink);
+      font-family: Aptos, "Segoe UI", Arial, sans-serif;
+    }
+    button { font: inherit; }
+    .deck {
+      position: relative;
+      width: min(100vw, 177.78vh);
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: var(--paper);
+      box-shadow: 0 22px 70px #142f4b24;
+      container-type: inline-size;
+    }
+    .topbar {
+      position: absolute;
+      z-index: 3;
+      top: 0;
+      right: 5%;
+      left: 5%;
+      height: 8.5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: clamp(9px, 1cqw, 16px);
+      letter-spacing: .16em;
+    }
+    .brand { color: var(--navy); font-weight: 800; }
+    .brand span { padding: 0 .65em; color: var(--gold); }
+    .top-meta { text-align: right; }
+    .top-meta a {
+      margin-left: 1.2em;
+      color: var(--blue);
+      text-decoration: none;
+      letter-spacing: .08em;
+      white-space: nowrap;
+    }
+    .slide {
+      position: absolute;
+      inset: 8.5% 0 8.5%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 4.2% 7.5% 5%;
+      overflow: hidden;
+      animation: arrive .28s ease both;
+    }
+    .slide[hidden] { display: none; }
+    .slide:nth-of-type(even) { background: #f8fafc; }
+    .slide::after {
+      position: absolute;
+      z-index: 0;
+      top: -31%;
+      right: -17%;
+      width: 48%;
+      aspect-ratio: 1;
+      border: 1px solid #dfe8ef;
+      border-radius: 50%;
+      box-shadow: 0 0 0 3.4cqw #f0f5f880, 0 0 0 6.8cqw #f6f9fb90;
+      content: "";
+      pointer-events: none;
+    }
+    .slide > * { position: relative; z-index: 1; }
+    .cover { padding-left: 8.5%; }
+    .cover::after {
+      top: 11%;
+      right: -9%;
+      width: 45%;
+      border: 1px solid #cddce8;
+      box-shadow: 0 0 0 3.5cqw #eaf1f680, 0 0 0 7cqw #f5f8fa90;
+    }
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: .85em;
+      margin: 0 0 1.5cqw;
+      color: var(--muted);
+      font-size: clamp(9px, 1cqw, 16px);
+      font-weight: 750;
+      letter-spacing: .17em;
+    }
+    .eyebrow b {
+      padding: .5em .7em;
+      border: 1px solid #d8e3eb;
+      border-radius: 5px;
+      background: #f4f8fa;
+      color: var(--blue);
+      font-size: .9em;
+    }
+    h1 {
+      max-width: 90%;
+      margin: 0 0 2cqw;
+      color: var(--navy);
+      font-size: clamp(28px, 4.55cqw, 72px);
+      letter-spacing: -.045em;
+      line-height: 1.08;
+    }
+    h1 em { color: var(--blue); font-style: normal; }
+    h2 {
+      margin: 0 0 1cqw;
+      color: var(--navy);
+      font-size: clamp(17px, 2cqw, 32px);
+      line-height: 1.2;
+    }
+    p { margin: 0; }
+    .subtitle {
+      color: var(--muted);
+      font-size: clamp(15px, 1.9cqw, 30px);
+      line-height: 1.5;
+    }
+    .cover h1 { max-width: 72%; font-size: clamp(34px, 5.2cqw, 82px); }
+    .cover .eyebrow { margin-bottom: 2.3cqw; }
+    .cover-info {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: .8cqw 2.4cqw;
+      width: 62%;
+      margin-top: 4.2cqw;
+      padding-top: 1.7cqw;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: clamp(11px, 1.15cqw, 18px);
+    }
+    .cover-info strong { color: var(--navy); font-weight: 700; }
+    .cover-mark {
+      position: absolute;
+      z-index: 1;
+      top: 26%;
+      right: 11%;
+      display: grid;
+      width: 29%;
+      aspect-ratio: 1;
+      place-items: center;
+      border: 1px solid #cddce8;
+      border-radius: 50%;
+      color: var(--navy);
+      font-size: clamp(14px, 1.7cqw, 27px);
+      font-weight: 800;
+      letter-spacing: .12em;
+    }
+    .cover-mark::before, .cover-mark::after {
+      position: absolute;
+      border: 1px solid #d6e2eb;
+      border-radius: 50%;
+      content: "";
+    }
+    .cover-mark::before { inset: 12%; }
+    .cover-mark::after { inset: 25%; background: #eaf1f6; }
+    .cover-mark span { z-index: 1; }
+    .lead {
+      max-width: 92%;
+      margin: 0 0 1.2cqw;
+      color: var(--muted);
+      font-size: clamp(16px, 1.9cqw, 29px);
+      line-height: 1.45;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.35cqw;
+      margin: 1.5cqw 0 1.4cqw;
+    }
+    .card {
+      min-height: 16cqw;
+      padding: 1.6cqw;
+      border: 1px solid #dce6ed;
+      border-top: 3px solid #85a5bc;
+      border-radius: 9px;
+      background: #f8fafc;
+    }
+    .card-number {
+      display: block;
+      margin-bottom: 1.3cqw;
+      color: var(--gold);
+      font-size: clamp(12px, 1.15cqw, 18px);
+      font-weight: 800;
+      letter-spacing: .1em;
+    }
+    .card h2 { font-size: clamp(16px, 1.8cqw, 28px); }
+    .card p {
+      color: var(--muted);
+      font-size: clamp(12px, 1.28cqw, 20px);
+      line-height: 1.48;
+    }
+    .callout {
+      padding: 1.1cqw 1.4cqw;
+      border-left: 3px solid var(--gold);
+      border-radius: 0 6px 6px 0;
+      background: #fbf6ef;
+      color: #795626;
+      font-size: clamp(11px, 1.2cqw, 19px);
+      line-height: 1.45;
+    }
+    .goal-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 4cqw;
+      align-items: center;
+    }
+    .goal-grid .lead { max-width: none; }
+    .goal-list {
+      display: grid;
+      gap: .9cqw;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+    .goal-list li {
+      display: flex;
+      gap: 1cqw;
+      align-items: flex-start;
+      color: var(--ink);
+      font-size: clamp(13px, 1.35cqw, 21px);
+      line-height: 1.45;
+    }
+    .goal-list li::before {
+      flex: 0 0 auto;
+      width: .55em;
+      height: .55em;
+      margin-top: .45em;
+      border-radius: 50%;
+      background: var(--gold);
+      content: "";
+    }
+    .change-flow {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.4cqw;
+      margin: 1cqw 0 1.5cqw;
+    }
+    .change-step {
+      position: relative;
+      min-height: 17cqw;
+      padding: 1.5cqw;
+      border-radius: 9px;
+      background: var(--sky);
+    }
+    .change-step:not(:last-child)::after {
+      position: absolute;
+      top: 45%;
+      right: -1.15cqw;
+      color: #83a0b5;
+      content: "→";
+      font-size: clamp(16px, 2cqw, 32px);
+    }
+    .change-step b { display: block; margin-bottom: 1.6cqw; color: var(--blue); font-size: clamp(11px, 1.1cqw, 17px); }
+    .change-step strong { display: block; margin-bottom: .7cqw; color: var(--navy); font-size: clamp(16px, 1.7cqw, 27px); }
+    .change-step span { color: var(--muted); font-size: clamp(11px, 1.15cqw, 18px); line-height: 1.4; }
+    .two-col {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2cqw;
+      margin: .2cqw 0 1.4cqw;
+    }
+    .panel {
+      padding: 1.5cqw 1.7cqw;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: #fff;
+    }
+    .panel h2 { font-size: clamp(16px, 1.65cqw, 26px); }
+    .panel p { color: var(--muted); font-size: clamp(12px, 1.28cqw, 20px); line-height: 1.5; }
+    .panel strong { color: var(--navy); }
+    .quote {
+      margin: .55cqw 0 .9cqw;
+      color: var(--navy);
+      font-size: clamp(16px, 1.75cqw, 28px);
+      font-weight: 700;
+      line-height: 1.3;
+    }
+    .kotter {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.6cqw;
+      margin: 1cqw 0 1.4cqw;
+    }
+    .kotter .panel { display: flex; gap: 1.2cqw; align-items: flex-start; }
+    .kotter .num { color: var(--gold); font-size: clamp(17px, 2.3cqw, 36px); font-weight: 800; }
+    .kotter p { margin-top: .45cqw; }
+    .lesson {
+      margin: .5cqw 0 1.3cqw;
+      padding: 1.2cqw 1.6cqw;
+      border-left: 4px solid var(--blue);
+      background: var(--sky);
+      color: var(--navy);
+      font-size: clamp(16px, 1.9cqw, 30px);
+      font-weight: 700;
+      line-height: 1.35;
+    }
+    .conclusion {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 2cqw;
+      align-items: center;
+    }
+    .conclusion .lead { margin: 0; }
+    .conclusion ul {
+      display: grid;
+      gap: .8cqw;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+    .conclusion li {
+      padding: .85cqw 1cqw;
+      border-left: 2px solid #9bb5c7;
+      background: #f7fafc;
+      color: var(--muted);
+      font-size: clamp(12px, 1.25cqw, 20px);
+    }
+    .sources {
+      display: grid;
+      gap: .72cqw;
+      padding-left: 1.5em;
+      margin: 0;
+    }
+    .sources li { padding-left: .35em; color: var(--ink); font-size: clamp(11px, 1.2cqw, 19px); line-height: 1.35; }
+    .sources a { color: var(--blue); font-weight: 700; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    .sources a:hover { color: var(--navy); }
+    .team-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      font-size: clamp(11px, 1.25cqw, 20px);
+    }
+    .team-table th, .team-table td {
+      padding: 1.1cqw 1cqw;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: middle;
+      line-height: 1.4;
+    }
+    .team-table th { background: var(--navy); color: #fff; font-weight: 700; }
+    .team-table td:first-child, .team-table td:last-child { color: var(--blue); font-weight: 700; white-space: nowrap; }
+    .footnote {
+      position: absolute !important;
+      right: 7.5%;
+      bottom: 1.7%;
+      left: 7.5%;
+      z-index: 1;
+      color: var(--muted);
+      font-size: clamp(9px, .9cqw, 14px);
+      letter-spacing: .025em;
+    }
+    .controls {
+      position: absolute;
+      z-index: 4;
+      right: 5%;
+      bottom: 1.1%;
+      left: 5%;
+      display: flex;
+      height: 6%;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--line);
+    }
+    .hint { color: var(--muted); font-size: clamp(9px, .9cqw, 14px); }
+    .control-group { display: flex; gap: .35cqw; align-items: center; }
+    .controls button {
+      min-width: 2.5em;
+      min-height: 2.25em;
+      border: 0;
+      border-radius: 5px;
+      background: transparent;
+      color: var(--navy);
+      cursor: pointer;
+      font-size: clamp(11px, 1.15cqw, 18px);
+    }
+    .controls button:hover:not(:disabled) { background: var(--sky); }
+    .controls button:disabled { opacity: .35; cursor: default; }
+    .controls button:focus-visible, a:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+    #counter { min-width: 4.5em; color: var(--muted); font-size: clamp(10px, 1cqw, 16px); text-align: center; font-variant-numeric: tabular-nums; }
+    .progress { position: absolute; z-index: 5; right: 0; bottom: 0; left: 0; height: 4px; background: #e5edf2; }
+    .progress span { display: block; width: 12.5%; height: 100%; background: var(--gold); transition: width .22s ease; }
+    dialog {
+      width: min(680px, calc(100vw - 32px));
+      padding: 30px;
+      border: 0;
+      border-top: 5px solid var(--gold);
+      border-radius: 8px;
+      color: var(--ink);
+      box-shadow: 0 20px 70px #142f4b45;
+    }
+    dialog::backdrop { background: #102b45a8; }
+    dialog h2 { margin: 0 36px 8px 0; font-size: 22px; }
+    dialog p { margin: 15px 0; font-size: 17px; line-height: 1.65; }
+    dialog .note-meta { color: var(--muted); font-size: 14px; }
+    #close-notes { float: right; border: 0; background: transparent; color: var(--muted); font-size: 25px; cursor: pointer; }
+    @keyframes arrive { from { opacity: .45; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
+    @media (max-width: 760px) {
+      body { display: block; overflow: auto; background: #fff; }
+      .deck { width: 100%; height: 100dvh; min-height: 620px; aspect-ratio: auto; overflow-y: auto; box-shadow: none; }
+      .topbar { position: sticky; top: 0; height: 54px; padding: 0 5%; background: #ffffffed; font-size: 10px; }
+      .slide, .slide[hidden] { position: relative; inset: auto; min-height: calc(100dvh - 112px); padding: 30px 7% 66px; overflow: visible; }
+      .slide[hidden] { display: none; }
+      .slide::after { width: 60%; }
+      .eyebrow { margin-bottom: 16px; font-size: 10px; }
+      h1, .cover h1 { max-width: 100%; margin-bottom: 18px; font-size: clamp(30px, 9vw, 48px); }
+      .cover .subtitle { font-size: 17px; }
+      .cover-info { width: 100%; gap: 12px; margin-top: 26px; padding-top: 16px; font-size: 12px; }
+      .cover-mark { top: auto; right: 8%; bottom: 11%; width: 25%; opacity: .35; }
+      .lead { max-width: 100%; margin-bottom: 14px; font-size: 17px; }
+      .cards, .change-flow { grid-template-columns: 1fr; gap: 10px; margin: 14px 0; }
+      .card, .change-step { min-height: 0; padding: 15px; }
+      .card-number, .change-step b { margin-bottom: 8px; }
+      .card p, .panel p { font-size: 14px; }
+      .card h2, .panel h2 { font-size: 18px; }
+      .change-step:not(:last-child)::after { display: none; }
+      .change-step strong { margin-bottom: 4px; font-size: 18px; }
+      .change-step span { font-size: 13px; }
+      .callout { padding: 10px 12px; font-size: 12px; }
+      .goal-grid, .two-col, .conclusion { grid-template-columns: 1fr; gap: 16px; }
+      .goal-list { gap: 10px; }
+      .goal-list li { gap: 10px; font-size: 14px; }
+      .panel { padding: 14px; }
+      .quote { margin: 7px 0; font-size: 18px; }
+      .kotter { grid-template-columns: 1fr; gap: 10px; margin: 12px 0; }
+      .kotter .panel { gap: 12px; }
+      .kotter .num { font-size: 22px; }
+      .lesson { margin: 8px 0 12px; padding: 12px; font-size: 17px; }
+      .conclusion li { padding: 10px; font-size: 13px; }
+      .sources { gap: 11px; }
+      .sources li { font-size: 12px; }
+      .team-table { font-size: 11px; }
+      .team-table th, .team-table td { padding: 9px 6px; }
+      .footnote { right: 7%; bottom: 20px; left: 7%; font-size: 10px; }
+      .controls { position: fixed; bottom: 0; left: 0; right: 0; height: 54px; padding: 0 5%; background: #ffffffed; backdrop-filter: blur(8px); }
+      .hint { font-size: 9px; }
+      .progress { position: fixed; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+    @media print {
+      @page { size: 13.333in 7.5in; margin: 0; }
+      html, body { width: auto; height: auto; overflow: visible; background: white; }
+      body { display: block; }
+      .deck { width: 13.333in; height: auto; overflow: visible; aspect-ratio: auto; box-shadow: none; }
+      .topbar, .controls, .progress, dialog { display: none !important; }
+      .slide, .slide[hidden] {
+        position: relative;
+        inset: auto;
+        display: flex !important;
+        width: 13.333in;
+        height: 7.5in;
+        padding: .7in 1in;
+        overflow: hidden;
+        break-after: page;
+        animation: none;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+      }
+      .slide::after { display: block; }
+      .footnote { right: 1in; bottom: .28in; left: 1in; }
+    }
+  </style>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    @media screen {
+      body {
+        display: block;
+        overflow: hidden;
+        background: #fff;
+      }
+      #stage {
+        position: absolute;
+        inset: auto;
+        left: var(--deck-left, 0px);
+        top: var(--deck-top, 0px);
+        width: 1600px;
+        height: 900px;
+        background: #fff;
+        overflow: hidden;
+        container-type: inline-size;
+        transform: scale(var(--deck-scale, 1)) !important;
+        transform-origin: top left;
+      }
+      #stage header {
+        position: relative;
+        z-index: 3;
+        height: 90px;
+        margin: 0 78px;
+        padding: 0;
+        background: transparent;
+      }
+      #stage .slide,
+      #stage .slide[hidden] {
+        position: absolute;
+        inset: 122px 78px 93px;
+        display: block;
+        max-width: none;
+        min-height: 0;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        border: 0;
+        animation: none;
+      }
+      #stage .slide[hidden] { display: none; }
+      #stage .slide:nth-of-type(even) { background: #fff; }
+      #stage .cover h1 {
+        max-width: 72%;
+        margin: 47px 0 28px;
+        font-size: 76px;
+      }
+      #stage .cover .subtitle {
+        margin: 16px 0;
+        font-size: 27px;
+        line-height: 1.4;
+      }
+      #stage .cover-bottom { margin-top: 38px; }
+      #stage .team { font-size: 21px !important; line-height: 1.4; }
+      #stage .eyebrow b {
+        padding: 6px 8px;
+        border: 1px solid #cddce7;
+        border-radius: 0;
+        background: transparent;
+        color: var(--navy);
+        font-size: 13px;
+        font-weight: 400;
+        letter-spacing: normal;
+      }
+      #stage .header-right { display: block; }
+      #stage footer.controls {
+        position: absolute;
+        z-index: 4;
+        right: 78px;
+        bottom: 19px;
+        left: 78px;
+        height: 51px;
+        padding: 13px 0 0;
+        background: transparent;
+      }
+      #stage .progress { position: absolute; }
+      #stage .card,
+      #stage .change-step,
+      #stage .panel {
+        border-radius: 0;
+        background: var(--light);
+      }
+      #stage .card { border-color: #d9e3eb; border-top-color: #8caac0; }
+      #stage .callout,
+      #stage .lesson,
+      #stage .conclusion li { border-radius: 0; }
+      #stage .callout { border-left-color: #cf925d; background: #eaf2f8; color: var(--muted); }
+      #stage .lesson { background: var(--light); }
+      #stage .conclusion li { background: var(--light); }
+      #stage .team-table th { background: var(--navy); }
+      #stage .team-table th,
+      #stage .team-table td { padding: 9px 14px; }
+      #stage .team-table td:first-child,
+      #stage .team-table td:last-child { color: var(--blue); }
+      #stage .sources { grid-template-columns: 1fr 1fr; gap: 4px 30px; }
+      #stage .sources li { padding-left: 4px; font-size: 16px; line-height: 1.25; }
+      #stage #slide-5 .two-col > .panel { padding: 20px; }
+      #stage #slide-5 .kotter { gap: 16px; margin: 12px 0; }
+      #stage #slide-5 .kotter .panel { gap: 12px; padding: 12px; }
+      #stage #slide-5 .kotter h2 { font-size: 20px; line-height: 1.2; }
+      #stage #slide-5 .kotter p { margin: 8px 0; font-size: 15px; line-height: 1.35; }
+      #stage #slide-5 .callout { margin: 10px 0 0; }
+      .covid-home-link {
+        color: var(--muted);
+        font-size: 13px;
+        letter-spacing: 1px;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+      .covid-home-link:hover { color: var(--navy); }
+    }
+    @media screen and (max-width: 760px) {
+      body { display: block; overflow: auto; background: #fff; }
+      #stage {
+        position: relative;
+        left: auto;
+        top: auto;
+        width: 100%;
+        height: 100dvh;
+        min-height: 620px;
+        overflow: hidden;
+        transform: none !important;
+      }
+      #stage header {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        height: 54px;
+        margin: 0;
+        padding: 0 5%;
+        gap: 8px;
+        background: #fffffff2;
+      }
+      #stage .brand { font-size: 12px; letter-spacing: 1px; white-space: nowrap; }
+      #stage .header-right { display: none; }
+      #stage .covid-home-link { font-size: 10px; }
+      #stage .slide,
+      #stage .slide[hidden] {
+        position: absolute;
+        inset: 54px 0 64px;
+        min-height: 0;
+        padding: 22px 7% 50px;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+      #stage .slide[hidden] { display: none; }
+      #stage .cover h1 { max-width: 100%; margin: 18px 0; font-size: clamp(34px, 10vw, 44px); }
+      #stage .cover-bottom { width: auto; max-width: 100%; margin-top: 16px; }
+      #stage .team { font-size: 15px !important; line-height: 1.4; }
+      #stage .fields { grid-template-columns: 1fr; gap: 8px; margin-top: 12px; }
+      #stage .cover-art { display: none; }
+      #stage footer.controls {
+        position: absolute;
+        right: 0;
+        bottom: 4px;
+        left: 0;
+        height: 54px;
+        padding: 0 5%;
+        background: #fffffff2;
+      }
+      #stage .footnote { position: static !important; margin-top: 24px; font-size: 10px; }
+      #stage .team-table { font-size: 11px; }
+      #stage .team-table th,
+      #stage .team-table td { padding: 9px 6px; }
+      #stage .sources { grid-template-columns: 1fr; gap: 12px; }
+      #stage .sources li { font-size: 13px; }
+      #stage .sources a { overflow-wrap: anywhere; }
+    }
+    @media print {
+      #stage .slide[hidden] { display: flex !important; }
+    }
+  </style>
+</head>
+<body>
+  <main id="stage" aria-label="Ковид-19 үеийн өөрчлөлтийн удирдлагын илтгэл">
+    <header>
+      <a href="#1" class="brand" aria-label="Нүүр слайд">ӨӨРЧЛӨЛТ <span>/</span> УДИРДЛАГА</a>
+      <span class="header-right">БИЕ ДААЛТ №2 <i>2026</i></span>
+      <a class="covid-home-link" href="../index.html">← ҮНДСЭН ХУУДАС</a>
+    </header>
+    <div id="slides">
+      <section class="slide cover" id="slide-1" aria-label="1. Нүүр хуудас" data-speaker="Илтгэгч" data-time="0:00–0:20" data-note="Сайн байна уу эрхэм багш болон ангийн анд нар аа. Манай баг Ковид-19 цар тахлын үеийн бизнесийн байгууллагуудын өөрчлөлтийн удирдлагыг олон улсын судалгаа, туршлагад тулгуурлан авч үзлээ.">
+        <p class="eyebrow"><span>01</span> ӨӨРЧЛӨЛТИЙН УДИРДЛАГА</p>
+        <h1>Ковид-19 үеийн<br><em>бизнесийн өөрчлөлт</em></h1>
+        <div class="body">
+          <p class="subtitle">Олон улсын судалгаа, туршлагад тулгуурласан шинжилгээ</p>
+          <div class="cover-bottom">
+            <p class="team">Э.Батдорж · Ц.Түмэн-Очир · С.Баярцэнгэл<br>Б.Загдхүү · А.Очирхүү · Ц.Баттөгөлдөр</p>
+            <div class="fields">
+              <label>Хичээлийн нэр <input aria-label="Хичээлийн нэр" value="Өөрчлөлтийн удирдлага"></label>
+              <label>Хичээлийн код <input aria-label="Хичээлийн код"></label>
+              <label>Багш <input aria-label="Багш" value="Э.Энхболд"></label>
+              <label>Огноо <input aria-label="Огноо" value="2026 он"></label>
+            </div>
+          </div>
+          <div class="cover-art" aria-hidden="true">
+            <i></i><i></i><i></i><i></i>
+            <b>ӨӨРЧЛӨЛТ</b><b>ДАСАН</b><b>ЗОХИЦОХ</b>
+          </div>
+        </div>
+        <p class="footnote">БИЗНЕСИЙН БАЙГУУЛЛАГЫН ӨӨРЧЛӨЛТИЙН УДИРДЛАГА</p>
+      </section>
+
+      <section class="slide" id="slide-2" aria-label="2. Удиртгал ба зорилго" hidden data-speaker="Илтгэгч" data-time="0:20–1:00" data-note="Цар тахал бол зөвхөн эрүүл мэндийн хямрал бус, дэлхий даяарх бизнесийн орчныг үндсээр нь өөрчилсөн том сорилт байлаа. Байгууллагууд уламжлалт хэв маягаас татгалзаж, хурдтай дасан зохицох шаардлагатай болсон. Бид HBR, Gallup болон бусад судалгааны материалд тулгуурлан удирдлагын сорилт, хүний нөөц, стратеги, бүтэц зохион байгуулалтын өөрчлөлтийг судаллаа.">
+        <p class="eyebrow"><b>02</b> УДИРТГАЛ БА ЗОРИЛГО</p>
+        <h1>Хямрал дунд<br><em>хурдтай дасан зохицох нь</em></h1>
+        <div class="goal-grid">
+          <p class="lead">Цар тахал бизнесийн орчныг үндсээр нь өөрчилж, менежментийн хуучин хэв маягийг сорьсон.</p>
+          <ul class="goal-list">
+            <li>Цар тахлын үеийн менежментийн сорилтыг тодорхойлох.</li>
+            <li>Хүний нөөц, стратеги, бүтэц зохион байгуулалтын өөрчлөлтийг судлах.</li>
+            <li>HBR, Gallup болон олон улсын судалгааны байгууллагын материалд тулгуурлах.</li>
+          </ul>
+        </div>
+        <p class="footnote">СУДАЛГААНЫ ЗОРИЛГО · ХҮНИЙ НӨӨЦ · СТРАТЕГИ · БҮТЭЦ</p>
+      </section>
+
+      <section class="slide" id="slide-3" aria-label="3. Гол сорилтууд" hidden data-speaker="Илтгэгч" data-time="1:00–1:45" data-note="Энэ үед гурван том сорилт тулгарсан. Нэгдүгээрт, гэнэтийн өөрчлөлт, нийлүүлэлтийн сүлжээний тасалдалтай холбоотой тодорхой бус байдал. Хоёрдугаарт, зайнаас ажиллахад гэнэт шилжсэнээр үүссэн стресс, ачаалал, шаталт. Гуравдугаарт, дижитал дэд бүтцээ маш богино хугацаанд шинэчлэх хэрэгцээ. HBR болон Gallup-ын материалд хямралын үед ажилтнуудын сэтгэл зүйн аюулгүй байдал, уян хатан байдлыг чухалчилсныг онцолдог.">
+        <p class="eyebrow"><b>03</b> ЦАР ТАХЛЫН ҮЕИЙН СОРИЛТ</p>
+        <h1>Байгууллагын өмнө тулгарсан<br><em>гурван сорилт</em></h1>
+        <div class="cards">
+          <article class="card">
+            <span class="card-number">01 / ГАДААД ОРЧИН</span>
+            <h2>Тодорхой бус байдал</h2>
+            <p>Гэнэтийн хямрал, эрэлт ба нийлүүлэлтийн сүлжээний тасалдал.</p>
+          </article>
+          <article class="card">
+            <span class="card-number">02 / ХҮНИЙ НӨӨЦ</span>
+            <h2>Сэтгэл зүй ба бүтээмж</h2>
+            <p>Зайнаас ажиллах үеийн стресс, ажлын ачаалал, шаталт.</p>
+          </article>
+          <article class="card">
+            <span class="card-number">03 / ТЕХНОЛОГИ</span>
+            <h2>Дижитал хоцрогдол</h2>
+            <p>Дэд бүтэц, хэрэгсэл, ур чадвараа шуурхай шинэчлэх шаардлага.</p>
+          </article>
+        </div>
+        <p class="callout">Хямралын үед ажилтнуудын сэтгэл зүйн аюулгүй байдал, уян хатан байдал удирдлагын гол анхааралд байв. — HBR, Gallup-ын материалд тулгуурлав</p>
+        <p class="footnote">ЭХ СУРВАЛЖ: HARVARD BUSINESS REVIEW · GALLUP</p>
+      </section>
+
+      <section class="slide" id="slide-4" aria-label="4. Өөрчлөлтийн үндсэн чиглэлүүд" hidden data-speaker="Илтгэгч" data-time="1:45–2:30" data-note="Байгууллагууд гурван үндсэн чиглэлээр өөрчлөлт хийсэн. Нэгдүгээрт, зайнаас болон хосолсон ажилд шилжиж, хатуу хяналтаас илүү итгэлцэлд суурилсан нөхцөл байдлын удирдлага хэрэгжүүлсэн. Хоёрдугаарт, шийдвэр гаргах шат дамжлагыг богиносгож, үндсэн чадамж болон зардлын оновчлолд төвлөрсөн. Гуравдугаарт, үүлэн технологи, Zoom, Microsoft Teams, Slack болон автоматжуулалтыг шуурхай нэвтрүүлсэн.">
+        <p class="eyebrow"><b>04</b> ӨӨРЧЛӨЛТИЙН ҮНДСЭН ЧИГЛЭЛ</p>
+        <h1>Хүн · бүтэц · <em>технологи</em></h1>
+        <div class="change-flow">
+          <article class="change-step">
+            <b>01 / ХҮНИЙ НӨӨЦ</b>
+            <strong>Уян хатан ажил</strong>
+            <span>Зайнаас, hybrid горим · итгэлцэлд суурилсан удирдлага</span>
+          </article>
+          <article class="change-step">
+            <b>02 / СТРАТЕГИ</b>
+            <strong>Шуурхай шийдвэр</strong>
+            <span>Богино шатлал · зардлын оновчлол · үндсэн чадамж</span>
+          </article>
+          <article class="change-step">
+            <b>03 / ДИЖИТАЛ ШИЛЖИЛТ</b>
+            <strong>Шинэ хэрэгсэл</strong>
+            <span>Үүлэн технологи · Zoom · Teams · Slack · автоматжуулалт</span>
+          </article>
+        </div>
+        <p class="callout">Хяналтаас итгэлцэл, урт шатлалаас хурдан шийдвэр, уламжлалт ажлаас дижитал ажиллагаа руу.</p>
+        <p class="footnote">HR &amp; EMPLOYEE BEHAVIOR · STRATEGY · DIGITAL TRANSFORMATION</p>
+      </section>
+
+      <section class="slide" id="slide-5" aria-label="5. Удирдлагын арга, загварууд" hidden data-speaker="Илтгэгч" data-time="2:30–4:30" data-note="Бид Коттерийн өөрчлөлтийн загвар болон Gallup-ын ажилтны оролцооны стратегийг авч үзлээ. Коттерийн хүрээнд өөрчлөлтийн яаралтай хэрэгцээг ойлгуулах, тодорхой алсын харааг тууштай түгээх нь чухал. Цар тахлыг зөвхөн аюул гэж харалгүй шинэ санаа, инновацийн боломж гэж үзсэн байгууллагууд хурдацтай өөрчлөгдөж чадсан. Мөн удирдлагууд ил тод, тогтмол харилцаж, ажилтнуудын санал хүсэлтийг сонсож, эргэх холбоо болон сэтгэл зүйн дэмжлэг үзүүлэх нь оролцоог бэхжүүлсэн.">
+        <p class="eyebrow"><b>05</b> УДИРДЛАГЫН АРГА БА ЗАГВАР</p>
+        <h1>Өөрчлөлтийг зорилготой<br><em>удирдах нь</em></h1>
+        <div class="two-col">
+          <article class="panel">
+            <h2>Коттерийн 8 үе шат</h2>
+            <p>Энэ танилцуулгад хямралын үед чухал хоёр зарчимд төвлөрөв.</p>
+            <div class="kotter">
+              <div class="panel">
+                <span class="num">01</span>
+                <div><h2>Яаралтай байдлыг ойлгуулах</h2><p>Хямралыг инноваци, шинэ боломжийн түлхэц болгох.</p></div>
+              </div>
+              <div class="panel">
+                <span class="num">02</span>
+                <div><h2>Алсын харааг түгээх</h2><p>Тогтмол, ил тод харилцаагаар багийг нэг зорилгод чиглүүлэх.</p></div>
+              </div>
+            </div>
+          </article>
+          <article class="panel">
+            <h2>Gallup · ажилтны оролцоо</h2>
+            <p class="quote">“Сонсох · хариу өгөх · дэмжих”</p>
+            <p>Ажилтнуудын хэрэгцээг тогтмол сонсож, эргэх холбоо үүсгэн, сэтгэл зүйн дэмжлэг үзүүлэх.</p>
+          </article>
+        </div>
+        <p class="callout">Хүмүүс яагаад өөрчлөгдөж байгааг ойлгож, өөрсдийн дуу хоолойг хүргэж чадвал өөрчлөлтөд оролцох суурь бүрдэнэ.</p>
+        <p class="footnote">JOHN KOTTER · GALLUP WORKPLACE · АЖИЛТНЫ ОРОЛЦОО</p>
+      </section>
+
+      <section class="slide" id="slide-6" aria-label="6. Үр дүн, сургамж ба дүгнэлт" hidden data-speaker="Илтгэгч" data-time="4:30–6:00" data-note="Эцэст нь, цар тахал байгууллагуудад зөвхөн өөрчлөлтөд бэлэн байх бус, шинэ боломжийг идэвхтэй эрэлхийлдэг соёл хэрэгтэйг санууллаа. Энэ хямрал хэдий хүнд сорилт байсан ч дижитал ур чадвар, уян хатан байдал, хүнийг төвд тавьсан удирдлагыг хэдэн жилийн өмнө урагшлуулсан. Мөн удирдагчдаас ухаалаг харилцаа, сэтгэл хөдлөлийн чадамж буюу EQ шаардагддагийг тод харууллаа.">
+        <p class="eyebrow"><b>06</b> ҮР ДҮН · СУРГАМЖ · ДҮГНЭЛТ</p>
+        <h1>Change-ready-гээс<br><em>Change-seeking соёл руу</em></h1>
+        <div class="lesson">Өөрчлөлтөд бэлэн байхаас гадна өөрчлөлт, шинэ боломжийг идэвхтэй эрэлхийлдэг байх хэрэгтэй.</div>
+        <div class="conclusion">
+          <p class="lead">Ковид-19 нь дижитал ур чадвар, байгууллагын уян хатан байдал, хүнийг төвд тавьсан удирдлагын соёлыг эрчимжүүлэв.</p>
+          <ul>
+            <li>Ухаалаг, тогтмол харилцаа</li>
+            <li>Ажилтны хэрэгцээ, сэтгэл зүйг ойлгох</li>
+            <li>Уян хатан бүтэц ба шийдвэр</li>
+            <li>Удирдагчийн сэтгэл хөдлөлийн чадамж (EQ)</li>
+          </ul>
+        </div>
+        <p class="footnote">ГОЛ СУРГАМЖ: БАЙНГА СУРАЛЦАЖ, ДАСАН ЗОХИЦОХ СОЁЛ</p>
+      </section>
+
+      <section class="slide" id="slide-7" aria-label="7. Багийн ажлын хуваарилалт" hidden data-speaker="Илтгэгч" data-time="6:00–6:30" data-note="Багийн гишүүдийн ажлын хуваарилалтыг харууллаа.">
+        <p class="eyebrow"><b>07</b> БАГИЙН АЖЛЫН ХУВААРИЛАЛТ</p>
+        <h1>Хамтын ажиллагаа,<br><em>нийтлэг үр дүн</em></h1>
+        <table class="team-table">
+          <thead>
+            <tr><th>Д/д</th><th>Оюутны нэр</th><th>Гүйцэтгэсэн үүрэг, ажлын хэсэг</th><th>Оролцоо</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>01</td><td>[Гишүүн 1-ийн нэр]</td><td>Гадаад болон HBR судалгааны материал цуглуулах, онолын хэсэг</td><td>100%</td></tr>
+            <tr><td>02</td><td>[Гишүүн 2-ийн нэр]</td><td>Ковид-19 үеийн хүний нөөц ба зан төлөвийн шинжилгээ</td><td>100%</td></tr>
+            <tr><td>03</td><td>[Гишүүн 3-ийн нэр]</td><td>Презентацийн дизайн, слайд зохион байгуулалт (MS PowerPoint)</td><td>100%</td></tr>
+            <tr><td>04</td><td>Ц.Түмэн-Очир</td><td>Ерөнхий нэгтгэл, стратеги ба дижитал шилжилт, танилцуулга</td><td>100%</td></tr>
+          </tbody>
+        </table>
+        <p class="footnote">АНХААРАЛ ХАНДУУЛСАНД БАЯРЛАЛАА · АСУУЛТ БАЙНА УУ?</p>
+      </section>
+
+      <section class="slide references-slide" id="slide-8" aria-label="8. Ашигласан эх сурвалж, холбоосууд" hidden data-speaker="Илтгэгч" data-time="6:30–7:00" data-note="COVID-19 илтгэл болон үндсэн танилцуулгад ашигласан бүх эх сурвалжийн холбоосыг энд нэгтгэлээ.">
+        <p class="eyebrow"><span>08</span> АШИГЛАСАН ЭХ СУРВАЛЖ / ХОЛБООСУУД</p>
+        <h1>Эх сурвалж ба <em>холбоосууд</em></h1>
+        <ol class="references sources">
+          <li><strong>Harvard Business Review.</strong> <i>Readiness Reimagined: How to Build a Change-Seeking Culture.</i> <a href="https://hbr.org/search?term=Readiness%20Reimagined%20How%20to%20Build%20a%20Change-Seeking%20Culture" target="_blank" rel="noopener noreferrer">hbr.org ↗</a></li>
+          <li><strong>Gallup Workplace.</strong> <i>Leading the Post-Pandemic Workplace &amp; Employee Engagement Strategies.</i> <a href="https://www.gallup.com/workplace/" target="_blank" rel="noopener noreferrer">gallup.com/workplace ↗</a></li>
+          <li><strong>PubMed.</strong> <i>Transformational Leadership During the COVID-19 Pandemic.</i> <a href="https://pubmed.ncbi.nlm.nih.gov/?term=transformational+leadership+COVID-19+pandemic" target="_blank" rel="noopener noreferrer">PubMed хайлт ↗</a></li>
+          <li><strong>ScienceDirect.</strong> <i>The Effect of COVID-19 on Managerial Leadership Style.</i> <a href="https://www.sciencedirect.com/search?qs=The%20effect%20of%20COVID-19%20on%20managerial%20leadership%20style" target="_blank" rel="noopener noreferrer">ScienceDirect хайлт ↗</a></li>
+          <li>Herzberg et al. (1959). <i>The Motivation to Work.</i> <a href="https://find.library.upenn.edu/catalog/9931926443503681" target="_blank" rel="noopener noreferrer">Номын бүртгэл ↗</a></li>
+          <li>Judge et al. (2001). <i>The Job Satisfaction–Job Performance Relationship.</i> <a href="https://doi.org/10.1037/0033-2909.127.3.376" target="_blank" rel="noopener noreferrer">doi:10.1037/0033-2909.127.3.376 ↗</a></li>
+          <li>Locke &amp; Latham (2002). <i>Goal Setting and Task Motivation.</i> <a href="https://doi.org/10.1037/0003-066X.57.9.705" target="_blank" rel="noopener noreferrer">doi:10.1037/0003-066X.57.9.705 ↗</a></li>
+          <li>Gagné &amp; Deci (2005). <i>Self-Determination Theory and Work Motivation.</i> <a href="https://doi.org/10.1002/job.322" target="_blank" rel="noopener noreferrer">doi:10.1002/job.322 ↗</a></li>
+          <li>Amabile &amp; Kramer (2011). <i>The Power of Small Wins.</i> <a href="https://hbr.org/2011/05/the-power-of-small-wins" target="_blank" rel="noopener noreferrer">HBR нийтлэл ↗</a></li>
+          <li>Bloom et al. (2015). <i>Does Working from Home Work?</i> <a href="https://doi.org/10.1093/qje/qju032" target="_blank" rel="noopener noreferrer">doi:10.1093/qje/qju032 ↗</a></li>
+          <li>Grant (2008). <i>The Significance of Task Significance.</i> <a href="https://doi.org/10.1037/0021-9010.93.1.108" target="_blank" rel="noopener noreferrer">doi:10.1037/0021-9010.93.1.108 ↗</a></li>
+        </ol>
+        <p class="footnote">ЭХ СУРВАЛЖИЙН НЭР ДЭЭР ДАРЖ ҮНДСЭН ХОЛБООСЫГ НЭЭНЭ</p>
+      </section>
+    </div>
+    <footer class="controls">
+      <span class="hint">← → слайд · N тайлбар · F бүтэн дэлгэц</span>
+      <div class="control-group">
+        <button id="notes-button" type="button" aria-label="Илтгэгчийн тэмдэглэл" title="Илтгэгчийн тэмдэглэл (N)">Тайлбар</button>
+        <button id="fullscreen" type="button" aria-label="Бүтэн дэлгэц" title="Бүтэн дэлгэц (F)">⛶</button>
+        <button id="prev" type="button" aria-label="Өмнөх слайд">←</button>
+        <span id="counter" aria-live="polite">01 / 08</span>
+        <button id="next" type="button" aria-label="Дараах слайд">→</button>
+      </div>
+    </footer>
+    <div class="progress" aria-hidden="true"><span id="progress-fill"></span></div>
+  </main>
+  <dialog id="notes" aria-labelledby="notes-title">
+    <button id="close-notes" type="button" aria-label="Хаах">×</button>
+    <p class="eyebrow">ИЛТГЭГЧИЙН ТЭМДЭГЛЭЛ</p>
+    <h2 id="notes-title"></h2>
+    <p id="notes-text"></p>
+    <p class="note-meta" id="notes-meta"></p>
+  </dialog>
+  <script>
+    (() => {
+      const stage = document.querySelector("#stage");
+      const slides = [...document.querySelectorAll(".slide")];
+      const counter = document.querySelector("#counter");
+      const progress = document.querySelector("#progress-fill");
+      const notes = document.querySelector("#notes");
+      let current = 0;
+
+      function resizeStage() {
+        const scale = Math.min(innerWidth / 1600, innerHeight / 900);
+        stage.style.setProperty("--deck-scale", String(scale));
+        stage.style.setProperty("--deck-left", `${(innerWidth - 1600 * scale) / 2}px`);
+        stage.style.setProperty("--deck-top", `${(innerHeight - 900 * scale) / 2}px`);
+      }
+
+      resizeStage();
+      window.addEventListener("resize", resizeStage);
+
+      function show(index, updateHash = true) {
+        current = Math.max(0, Math.min(slides.length - 1, index));
+        slides.forEach((slide, i) => { slide.hidden = i !== current; });
+        const slide = slides[current];
+        counter.textContent = `${String(current + 1).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")}`;
+        progress.style.width = `${((current + 1) / slides.length) * 100}%`;
+        document.querySelector("#prev").disabled = current === 0;
+        document.querySelector("#next").disabled = current === slides.length - 1;
+        document.querySelector("#notes-title").textContent = slide.getAttribute("aria-label");
+        document.querySelector("#notes-text").textContent = slide.dataset.note;
+        document.querySelector("#notes-meta").textContent = `${slide.dataset.speaker} · ${slide.dataset.time}`;
+        if (updateHash) history.replaceState(null, "", `#${current + 1}`);
+      }
+
+      function openNotes() {
+        if (typeof notes.showModal === "function") notes.showModal();
+      }
+
+      document.querySelector("#prev").addEventListener("click", () => show(current - 1));
+      document.querySelector("#next").addEventListener("click", () => show(current + 1));
+      document.querySelector("#notes-button").addEventListener("click", openNotes);
+      document.querySelector("#close-notes").addEventListener("click", () => notes.close());
+      document.querySelector("#fullscreen").addEventListener("click", () => {
+        if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen().catch(error => {
+            console.error("Бүтэн дэлгэц нээж чадсангүй.", error);
+          });
+        } else if (document.exitFullscreen) {
+          document.exitFullscreen().catch(error => {
+            console.error("Бүтэн дэлгэцээс гарч чадсангүй.", error);
+          });
+        }
+      });
+      document.addEventListener("keydown", event => {
+        if (notes.open) {
+          if (event.key === "Escape") notes.close();
+          return;
+        }
+        if (event.altKey || event.ctrlKey || event.metaKey) return;
+        if (["ArrowRight", "PageDown", " "].includes(event.key)) {
+          event.preventDefault();
+          show(current + 1);
+        } else if (["ArrowLeft", "PageUp"].includes(event.key)) {
+          event.preventDefault();
+          show(current - 1);
+        } else if (event.key === "Home") {
+          show(0);
+        } else if (event.key === "End") {
+          show(slides.length - 1);
+        } else if (event.key.toLowerCase() === "n") {
+          openNotes();
+        } else if (event.key.toLowerCase() === "f") {
+          document.querySelector("#fullscreen").click();
+        }
+      });
+      window.addEventListener("hashchange", () => {
+        const target = Number(location.hash.slice(1));
+        if (Number.isInteger(target) && target >= 1 && target <= slides.length) show(target - 1, false);
+      });
+
+      const initial = Number(location.hash.slice(1));
+      show(Number.isInteger(initial) && initial >= 1 && initial <= slides.length ? initial - 1 : 0, false);
+    })();
+  </script>
+</body>
+</html>

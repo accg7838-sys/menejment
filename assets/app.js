@@ -33,12 +33,19 @@ circleSettings.forEach(([size,x,y,duration,delay,dx,dy,start,end],index)=>{
   floatingBackground.append(circle);
 });
 document.body.prepend(floatingBackground);
+document.body.classList.add('presentation-fixed');
 const stage=document.querySelector('#stage'), slides=[...document.querySelectorAll('.slide')], notes=document.querySelector('#notes'); let current=0;
-function resize(){updateScroll();}
+function resize(){
+  const scale=Math.min(innerWidth/1600,innerHeight/900);
+  stage.style.setProperty('--deck-scale',String(scale));
+  stage.style.setProperty('--deck-left',`${(innerWidth-1600*scale)/2}px`);
+  stage.style.setProperty('--deck-top',`${(innerHeight-900*scale)/2}px`);
+  updateScroll();
+}
 const motionPreference=matchMedia('(prefers-reduced-motion: reduce)');
-function activate(i){current=i;document.querySelector('#counter').textContent=`${String(i+1).padStart(2,'0')} / ${slides.length}`;document.querySelector('#speaker').textContent=data[i].speaker;document.querySelector('#prev').disabled=i===0;document.querySelector('#next').disabled=i===slides.length-1;history.replaceState(null,'','#'+(i+1));document.querySelector('#notes-title').textContent=data[i].k;document.querySelector('#notes-text').textContent=data[i].note;document.querySelector('#notes-time').textContent=data[i].speaker+' · '+data[i].time;}
-function show(i,behavior=motionPreference.matches?'instant':'smooth'){const slide=slides[Math.max(0,Math.min(slides.length-1,i))];const rect=slide.getBoundingClientRect();const available=innerHeight-64;const gap=Math.max(0,(available-rect.height)/2);scrollTo({top:Math.max(0,scrollY+rect.top-gap),behavior});}
-function fromHash(){const n=Number(location.hash.slice(1));const target=Number.isInteger(n)&&n>=1&&n<=slides.length?n-1:0;activate(target);show(target,'instant');}
+function activate(i){current=i;slides.forEach((slide,index)=>{slide.hidden=index!==i;slide.classList.toggle('is-visible',index===i);});document.querySelector('#counter').textContent=`${String(i+1).padStart(2,'0')} / ${slides.length}`;document.querySelector('#speaker').textContent=data[i].speaker;document.querySelector('#prev').disabled=i===0;document.querySelector('#next').disabled=i===slides.length-1;history.replaceState(null,'','#'+(i+1));document.querySelector('#notes-title').textContent=data[i].k;document.querySelector('#notes-text').textContent=data[i].note;document.querySelector('#notes-time').textContent=data[i].speaker+' · '+data[i].time;document.querySelector('#progress-fill').style.width=`${((i+1)/slides.length)*100}%`;}
+function show(i){const target=Math.max(0,Math.min(slides.length-1,i));activate(target);slides[target].scrollTop=0;}
+function fromHash(){const n=Number(location.hash.slice(1));const target=Number.isInteger(n)&&n>=1&&n<=slides.length?n-1:0;show(target);}
 function updateBackgroundCircles(){
   if(motionPreference.matches)return;
   floatingBackground.querySelectorAll('i').forEach((circle,index)=>{
@@ -62,11 +69,6 @@ function updateBackgroundCircles(){
 let scrollFrame=0;
 function updateScroll(){
   updateBackgroundCircles();
-  const focus=innerHeight*.4;let active=0;
-  slides.forEach((slide,i)=>{const r=slide.getBoundingClientRect();if(r.top<=focus)active=i;if(r.bottom>0&&r.top<innerHeight){const offset=motionPreference.matches?0:Math.max(-80,Math.min(80,(innerHeight/2-(r.top+r.height/2))*.14));slide.style.setProperty('--scroll-depth',offset+'px');}});
-  if(active!==current)activate(active);
-  const max=document.documentElement.scrollHeight-innerHeight;
-  document.querySelector('#progress-fill').style.width=(max>0?scrollY/max*100:100)+'%';
   scrollFrame=0;
 }
 addEventListener('scroll',()=>{if(!scrollFrame)scrollFrame=requestAnimationFrame(updateScroll)},{passive:true});
@@ -105,7 +107,6 @@ slides.forEach(slide => {
     item.style.setProperty('--item-delay', `${200 + Math.min(index * 85, 425)}ms`);
   });
 });
-slides.forEach(slide=>{slide.hidden=false;slide.removeAttribute('aria-hidden')});
 // Observe each text block rather than its much taller section.
 const revealTargets=[...document.querySelectorAll('.slide h1, .slide .body p, .slide .body h3, .reveal-item')];
 revealTargets.forEach(element=>element.classList.add('reveal-group'));
@@ -136,4 +137,4 @@ if ('IntersectionObserver' in window) {
 }else{
   revealTargets.forEach(element=>element.classList.add('has-entered'));
 }
-fromHash();activate(current);updateScroll();
+resize();fromHash();updateScroll();
