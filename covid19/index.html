@@ -1163,8 +1163,8 @@
           <div class="cover-bottom">
             <p class="team">Э.Батдорж · Ц.Түмэн-Очир · С.Баярцэнгэл<br>Б.Загдхүү · А.Очирхүү · Ц.Баттөгөлдөр</p>
             <div class="fields">
-              <label>Хичээлийн нэр <input aria-label="Хичээлийн нэр" value="Өөрчлөлтийн удирдлага"></label>
-              <label>Хичээлийн код <input aria-label="Хичээлийн код"></label>
+              <label>Хичээлийн нэр <input aria-label="Хичээлийн нэр" value="Менежментийн үндэс"></label>
+              <label>Хичээлийн код <input aria-label="Хичээлийн код" value="IMGM121"></label>
               <label>Багш <input aria-label="Багш" value="Э.Цовоо"></label>
               <label>Огноо <input aria-label="Огноо" value="2026 он"></label>
             </div>
@@ -1316,7 +1316,7 @@
       </section>
     </div>
     <footer class="controls">
-      <span class="hint">← → слайд · N тайлбар · F бүтэн дэлгэц</span>
+      <span class="hint" id="speaker-hint">Илтгэгч: А.Очирхүү</span>
       <div class="control-group">
         <button id="notes-button" type="button" aria-label="Илтгэгчийн тэмдэглэл" title="Илтгэгчийн тэмдэглэл (N)">Тайлбар</button>
         <button id="fullscreen" type="button" aria-label="Бүтэн дэлгэц" title="Бүтэн дэлгэц (F)">⛶</button>
@@ -1357,6 +1357,7 @@
         current = Math.max(0, Math.min(slides.length - 1, index));
         slides.forEach((slide, i) => { slide.hidden = i !== current; });
         const slide = slides[current];
+        document.querySelector("#speaker-hint").textContent = `Илтгэгч: ${slide.dataset.speaker}`;
         document.querySelector("#prev").setAttribute("aria-controls", slide.id);
         document.querySelector("#next").setAttribute("aria-controls", slide.id);
         counter.textContent = `${String(current + 1).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")}`;
