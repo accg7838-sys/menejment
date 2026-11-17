@@ -347,16 +347,22 @@
     .sources a:hover { color: var(--navy); }
     .team-table {
       width: 100%;
+      table-layout: fixed;
       border-collapse: collapse;
       background: #fff;
       font-size: clamp(11px, 1.25cqw, 20px);
     }
+    .team-table th:first-child, .team-table td:first-child { width: 8%; }
+    .team-table th:nth-child(2), .team-table td:nth-child(2) { width: 22%; }
+    .team-table th:nth-child(3), .team-table td:nth-child(3) { width: 54%; }
+    .team-table th:last-child, .team-table td:last-child { width: 16%; }
     .team-table th, .team-table td {
       padding: 1.1cqw 1cqw;
       border-bottom: 1px solid var(--line);
       text-align: left;
       vertical-align: middle;
       line-height: 1.4;
+      overflow-wrap: anywhere;
     }
     .team-table th { background: var(--navy); color: #fff; font-weight: 700; }
     .team-table td:first-child, .team-table td:last-child { color: var(--blue); font-weight: 700; white-space: nowrap; }
@@ -653,6 +659,489 @@
       #stage .sources li { font-size: 13px; }
       #stage .sources a { overflow-wrap: anywhere; }
     }
+    @media screen and (max-width: 520px) {
+      #stage header { gap: 4px; }
+      #stage .brand { font-size: 10px; letter-spacing: .5px; }
+      #stage .covid-home-link { font-size: 9px; }
+      #stage footer.controls { justify-content: flex-end; }
+      #stage .hint { display: none; }
+      #stage .control-group { gap: 2px; }
+      #stage .controls button { min-width: 34px; min-height: 34px; padding: 4px; }
+      #stage #notes-button { font-size: 12px; }
+      #stage #counter { min-width: 46px; font-size: 11px; }
+      #stage .team-table { font-size: 10px; }
+      #stage .team-table th,
+      #stage .team-table td { padding: 7px 4px; }
+    }
+    @media screen and (min-width: 761px) {
+      #stage .references-slide {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 18px 0;
+      }
+      #stage .references-slide .eyebrow { margin-bottom: 20px; }
+      #stage .references-slide h1 {
+        max-width: 100%;
+        margin: 0 0 12px;
+        font-size: 68px;
+      }
+      #stage .references-intro {
+        margin-bottom: 24px;
+        color: var(--muted);
+        font-size: 22px;
+      }
+      #stage .references-slide .sources {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px 22px;
+        padding: 0;
+        list-style: none;
+        counter-reset: reference;
+      }
+      #stage .references-slide .sources li {
+        position: relative;
+        display: flex;
+        min-width: 0;
+        min-height: 150px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 20px 22px 18px 76px;
+        border: 1px solid #d5e1ea;
+        border-left: 4px solid #7898b0;
+        background: linear-gradient(135deg, #f8fafc, #eaf2f8);
+        box-shadow: 0 10px 24px #142f4b0c;
+        color: var(--ink);
+        font-size: 18px;
+        line-height: 1.4;
+        counter-increment: reference;
+      }
+      #stage .references-slide .sources li::before {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        display: grid;
+        width: 38px;
+        height: 38px;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--navy);
+        color: #fff;
+        content: counter(reference, decimal-leading-zero);
+        font-size: 14px;
+        font-weight: 800;
+      }
+      #stage .references-slide .sources li:nth-child(2)::before { background: #527895; }
+      #stage .references-slide .sources li:nth-child(3)::before { background: #718b69; }
+      #stage .references-slide .sources li:nth-child(4)::before { background: #a5794d; }
+      #stage .references-slide .sources li > strong {
+        color: var(--navy);
+        font-size: 20px;
+      }
+      #stage .references-slide .sources li > i {
+        color: var(--muted);
+        font-size: 18px;
+      }
+      #stage .references-slide .sources li > a {
+        display: inline-flex;
+        margin-top: auto;
+        padding: 5px 10px;
+        border-radius: 4px;
+        background: #fff;
+        font-size: 15px;
+      }
+    }
+    @media screen and (max-width: 760px) {
+      #stage .references-slide { display: block; }
+      #stage .references-slide h1 { margin-bottom: 10px; }
+      #stage .references-intro { margin-bottom: 16px; font-size: 14px; }
+      #stage .references-slide .sources {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 0;
+        list-style: none;
+        counter-reset: reference;
+      }
+      #stage .references-slide .sources li {
+        position: relative;
+        min-width: 0;
+        min-height: 0;
+        padding: 13px 14px 13px 56px;
+        border: 1px solid #d5e1ea;
+        border-left: 3px solid #7898b0;
+        background: linear-gradient(135deg, #f8fafc, #eaf2f8);
+        color: var(--ink);
+        font-size: 13px;
+        line-height: 1.4;
+        overflow-wrap: anywhere;
+        counter-increment: reference;
+      }
+      #stage .references-slide .sources li::before {
+        position: absolute;
+        top: 13px;
+        left: 12px;
+        display: grid;
+        width: 30px;
+        height: 30px;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--navy);
+        color: #fff;
+        content: counter(reference, decimal-leading-zero);
+        font-size: 11px;
+        font-weight: 800;
+      }
+      #stage .references-slide .sources li > strong { color: var(--navy); font-size: 14px; }
+      #stage .references-slide .sources li > i { color: var(--muted); font-size: 13px; }
+      #stage .references-slide .sources li > a { display: inline-block; margin-top: 6px; }
+    }
+    @media screen and (min-width: 761px) {
+      #stage .eyebrow b,
+      #stage .eyebrow > span {
+        border: 1px solid #d5e1ea;
+        border-radius: 8px;
+        background: #f3f7fa;
+        color: var(--blue);
+        font-weight: 800;
+      }
+      #stage .cover .team {
+        display: inline-block;
+        padding: 14px 18px;
+        border-left: 3px solid var(--blue);
+        background: linear-gradient(110deg, #f1f6fa, #fff);
+      }
+      #stage .cover .fields { gap: 12px 18px; }
+      #stage .cover .fields label {
+        display: grid;
+        gap: 5px;
+        padding: 10px 12px 6px;
+        border: 1px solid #dce6ed;
+        border-radius: 8px;
+        background: #fff;
+        font-size: 13px;
+      }
+      #stage .cover .fields input { padding: 4px 0; }
+      #stage .goal-grid { gap: 30px; align-items: stretch; }
+      #stage .goal-grid > .lead {
+        display: flex;
+        min-height: 250px;
+        flex-direction: column;
+        justify-content: center;
+        padding: 32px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #142f4b, #315d7e);
+        box-shadow: 0 16px 32px #142f4b20;
+        color: #fff;
+        font-size: 27px;
+      }
+      #stage .goal-grid > .lead strong { color: #dce9f2; font-size: 18px; }
+      #stage .goal-list {
+        gap: 12px;
+        counter-reset: objective;
+      }
+      #stage .goal-list li {
+        min-height: 68px;
+        align-items: center;
+        gap: 14px;
+        padding: 12px 16px;
+        border: 1px solid #d8e3eb;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #fff, #f0f5f8);
+        box-shadow: 0 8px 18px #142f4b0a;
+        font-size: 18px;
+        counter-increment: objective;
+      }
+      #stage .goal-list li::before {
+        display: grid;
+        width: 36px;
+        height: 36px;
+        flex: 0 0 36px;
+        place-items: center;
+        margin: 0;
+        border-radius: 50%;
+        background: var(--navy);
+        color: #fff;
+        content: counter(objective, decimal-leading-zero);
+        font-size: 13px;
+        font-weight: 800;
+      }
+      #stage .card,
+      #stage .change-step,
+      #stage .panel {
+        border: 1px solid #d5e1ea;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #fff, #eaf2f8);
+        box-shadow: 0 10px 24px #142f4b10;
+      }
+      #stage .card { min-height: 220px; padding: 24px; }
+      #stage .card-number {
+        display: inline-block;
+        margin-bottom: 18px;
+        padding: 7px 10px;
+        border-radius: 20px;
+        background: #fff;
+        color: var(--blue);
+      }
+      #stage .card h2 { margin-bottom: 10px; font-size: 25px; }
+      #stage .card p { font-size: 18px; line-height: 1.5; }
+      #stage .callout {
+        padding: 16px 20px;
+        border-left: 4px solid #7898b0;
+        border-radius: 0 10px 10px 0;
+        background: linear-gradient(100deg, #eaf2f8, #f8fafc);
+        box-shadow: 0 8px 20px #142f4b08;
+        font-size: 18px;
+      }
+      #stage .change-step {
+        min-height: 230px;
+        padding: 24px;
+      }
+      #stage .change-step b {
+        display: inline-block;
+        margin-bottom: 28px;
+        padding: 7px 10px;
+        border-radius: 20px;
+        background: #fff;
+        color: var(--blue);
+      }
+      #stage .change-step strong { margin-bottom: 12px; font-size: 26px; }
+      #stage .change-step span { font-size: 18px; line-height: 1.5; }
+      #stage .change-step:not(:last-child)::after {
+        top: calc(50% - 18px);
+        right: -20px;
+        z-index: 2;
+        display: grid;
+        width: 36px;
+        height: 36px;
+        place-items: center;
+        border: 1px solid #d5e1ea;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 0 4px 12px #142f4b14;
+        color: var(--navy);
+        font-size: 20px;
+      }
+      #stage #slide-5 .two-col > .panel {
+        padding: 28px;
+        background: linear-gradient(145deg, #f5f8fb, #fff);
+      }
+      #stage #slide-5 .two-col > .panel > h2 { font-size: 27px; }
+      #stage #slide-5 .two-col > .panel > p { font-size: 18px; }
+      #stage #slide-5 .kotter { gap: 16px; margin: 22px 0 0; }
+      #stage #slide-5 .kotter .panel {
+        min-height: 160px;
+        gap: 14px;
+        padding: 18px;
+        border-radius: 10px;
+        background: #fff;
+      }
+      #stage #slide-5 .kotter .num {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        flex: 0 0 42px;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--navy);
+        color: #fff;
+        font-size: 18px;
+      }
+      #stage #slide-5 .kotter h2 { font-size: 19px; }
+      #stage #slide-5 .kotter p { margin: 8px 0 0; font-size: 16px; line-height: 1.45; }
+      #stage .lesson {
+        padding: 20px 24px;
+        border: 0;
+        border-left: 5px solid #a5794d;
+        border-radius: 0 12px 12px 0;
+        background: linear-gradient(110deg, #142f4b, #315d7e);
+        box-shadow: 0 14px 28px #142f4b20;
+        color: #fff;
+        font-size: 23px;
+      }
+      #stage .conclusion { gap: 24px; }
+      #stage .conclusion > .lead {
+        padding: 26px;
+        border: 1px solid #d5e1ea;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #f6f9fb, #eaf2f8);
+        box-shadow: 0 10px 24px #142f4b0b;
+        font-size: 22px;
+        line-height: 1.55;
+      }
+      #stage .conclusion ul { gap: 10px; counter-reset: takeaway; }
+      #stage .conclusion li {
+        display: flex;
+        min-height: 48px;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 14px;
+        border: 1px solid #d8e3eb;
+        border-left: 3px solid #7898b0;
+        border-radius: 8px;
+        background: linear-gradient(110deg, #fff, #f0f5f8);
+        box-shadow: 0 6px 16px #142f4b08;
+        font-size: 17px;
+        counter-increment: takeaway;
+      }
+      #stage .conclusion li::before {
+        color: var(--blue);
+        content: counter(takeaway, decimal-leading-zero);
+        font-size: 13px;
+        font-weight: 800;
+      }
+      #stage .team-table {
+        border: 0;
+        border-collapse: separate;
+        border-spacing: 0 8px;
+      }
+      #stage .team-table th {
+        padding: 14px 16px;
+        border: 0;
+        background: var(--navy);
+        letter-spacing: .03em;
+      }
+      #stage .team-table th:first-child { border-radius: 9px 0 0 9px; }
+      #stage .team-table th:last-child { border-radius: 0 9px 9px 0; }
+      #stage .team-table td {
+        padding: 13px 16px;
+        border: 0;
+        background: linear-gradient(110deg, #f7fafc, #eaf2f8);
+        font-size: 17px;
+      }
+      #stage #slide-8 .team-table td { padding: 8px 16px; }
+      #stage .team-table tr td:first-child { border-radius: 9px 0 0 9px; }
+      #stage .team-table tr td:last-child {
+        border-radius: 0 9px 9px 0;
+        text-align: center;
+      }
+      #stage .team-number {
+        display: inline-grid;
+        width: 34px;
+        height: 34px;
+        place-items: center;
+        border-radius: 50%;
+        background: #fff;
+        color: var(--navy);
+        font-size: 13px;
+      }
+      #stage .participation {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 20px;
+        background: #fff;
+        color: var(--blue);
+        font-size: 14px;
+        font-weight: 800;
+      }
+    }
+    @media screen and (max-width: 760px) {
+      #stage .cover .team {
+        padding: 10px 12px;
+        border-left: 3px solid var(--blue);
+        background: #f3f7fa;
+      }
+      #stage .goal-grid > .lead {
+        padding: 18px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #142f4b, #315d7e);
+        color: #fff;
+        font-size: 16px;
+      }
+      #stage .goal-grid > .lead strong { color: #dce9f2; font-size: 14px; }
+      #stage .goal-list { counter-reset: objective; }
+      #stage .goal-list li {
+        min-height: 54px;
+        align-items: center;
+        padding: 10px;
+        border: 1px solid #d8e3eb;
+        border-radius: 8px;
+        background: #f4f8fa;
+        counter-increment: objective;
+      }
+      #stage .goal-list li::before {
+        display: grid;
+        width: 30px;
+        height: 30px;
+        flex: 0 0 30px;
+        place-items: center;
+        margin: 0;
+        border-radius: 50%;
+        background: var(--navy);
+        color: #fff;
+        content: counter(objective, decimal-leading-zero);
+        font-size: 11px;
+        font-weight: 800;
+      }
+      #stage .card,
+      #stage .change-step,
+      #stage .panel {
+        border: 1px solid #d5e1ea;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #fff, #edf3f7);
+        box-shadow: 0 6px 16px #142f4b0c;
+      }
+      #stage .card-number,
+      #stage .change-step b {
+        display: inline-block;
+        width: fit-content;
+        padding: 5px 8px;
+        border-radius: 20px;
+        background: #fff;
+        color: var(--blue);
+      }
+      #stage .change-step:not(:last-child)::after { display: none; }
+      #stage #slide-5 .two-col > .panel { padding: 16px; }
+      #stage #slide-5 .kotter .panel { min-height: 0; padding: 12px; }
+      #stage .lesson {
+        border-left: 4px solid #a5794d;
+        border-radius: 0 8px 8px 0;
+        background: linear-gradient(110deg, #142f4b, #315d7e);
+        color: #fff;
+      }
+      #stage .conclusion > .lead {
+        padding: 16px;
+        border: 1px solid #d5e1ea;
+        border-radius: 9px;
+        background: #edf3f7;
+      }
+      #stage .conclusion li {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid #d8e3eb;
+        border-left: 3px solid #7898b0;
+        border-radius: 7px;
+        background: #f4f8fa;
+      }
+      #stage .team-table {
+        border-collapse: separate;
+        border-spacing: 0 5px;
+      }
+      #stage .team-table th {
+        padding: 8px 5px;
+        border: 0;
+        letter-spacing: 0;
+      }
+      #stage .team-table th:first-child,
+      #stage .team-table td:first-child { width: 11%; text-align: center; }
+      #stage .team-table th:nth-child(2),
+      #stage .team-table td:nth-child(2) { width: 23%; }
+      #stage .team-table th:nth-child(3),
+      #stage .team-table td:nth-child(3) { width: 50%; }
+      #stage .team-table th:last-child,
+      #stage .team-table td:last-child { width: 16%; }
+      #stage .team-table td {
+        padding: 7px 4px;
+        border: 0;
+        background: #f0f5f8;
+        font-size: 10px;
+      }
+      #stage .team-table tr td:first-child { border-radius: 6px 0 0 6px; }
+      #stage .team-table tr td:last-child { border-radius: 0 6px 6px 0; text-align: center; }
+      #stage .team-number { width: 24px; height: 24px; font-size: 9px; }
+      #stage .participation { padding: 3px 4px; background: #fff; font-size: 9px; }
+    }
     @media print {
       #stage .slide[hidden] { display: flex !important; }
     }
@@ -666,7 +1155,7 @@
       <a class="covid-home-link" href="../index.html">← ҮНДСЭН ХУУДАС</a>
     </header>
     <div id="slides">
-      <section class="slide cover" id="slide-1" aria-label="1. Нүүр хуудас" data-speaker="Илтгэгч" data-time="0:00–0:20" data-note="Сайн байна уу эрхэм багш болон ангийн анд нар аа. Манай баг Ковид-19 цар тахлын үеийн бизнесийн байгууллагуудын өөрчлөлтийн удирдлагыг олон улсын судалгаа, туршлагад тулгуурлан авч үзлээ.">
+      <section class="slide cover" id="slide-1" aria-label="1. Нүүр хуудас" data-speaker="А.Очирхүү" data-time="0:00–0:20" data-note="Сайн байна уу эрхэм багш болон ангийн анд нар аа. Манай баг Ковид-19 цар тахлын үеийн бизнесийн байгууллагуудын өөрчлөлтийн удирдлагыг олон улсын судалгаа, туршлагад тулгуурлан авч үзлээ.">
         <p class="eyebrow"><span>01</span> ӨӨРЧЛӨЛТИЙН УДИРДЛАГА</p>
         <h1>Ковид-19 үеийн<br><em>бизнесийн өөрчлөлт</em></h1>
         <div class="body">
@@ -676,7 +1165,7 @@
             <div class="fields">
               <label>Хичээлийн нэр <input aria-label="Хичээлийн нэр" value="Өөрчлөлтийн удирдлага"></label>
               <label>Хичээлийн код <input aria-label="Хичээлийн код"></label>
-              <label>Багш <input aria-label="Багш" value="Э.Энхболд"></label>
+              <label>Багш <input aria-label="Багш" value="Э.Цовоо"></label>
               <label>Огноо <input aria-label="Огноо" value="2026 он"></label>
             </div>
           </div>
@@ -688,22 +1177,22 @@
         <p class="footnote">БИЗНЕСИЙН БАЙГУУЛЛАГЫН ӨӨРЧЛӨЛТИЙН УДИРДЛАГА</p>
       </section>
 
-      <section class="slide" id="slide-2" aria-label="2. Удиртгал ба зорилго" hidden data-speaker="Илтгэгч" data-time="0:20–1:00" data-note="Цар тахал бол зөвхөн эрүүл мэндийн хямрал бус, дэлхий даяарх бизнесийн орчныг үндсээр нь өөрчилсөн том сорилт байлаа. Байгууллагууд уламжлалт хэв маягаас татгалзаж, хурдтай дасан зохицох шаардлагатай болсон. Бид HBR, Gallup болон бусад судалгааны материалд тулгуурлан удирдлагын сорилт, хүний нөөц, стратеги, бүтэц зохион байгуулалтын өөрчлөлтийг судаллаа.">
-        <p class="eyebrow"><b>02</b> УДИРТГАЛ БА ЗОРИЛГО</p>
-        <h1>Хямрал дунд<br><em>хурдтай дасан зохицох нь</em></h1>
+      <section class="slide" id="slide-2" aria-label="2. Судалгааны зорилго" hidden data-speaker="Ц.Баттөгөлдөр" data-time="0:20–1:00" data-note="Судалгааны асуулт бол Ковид-19 цар тахлын үед бизнесийн байгууллагууд өөрчлөлтийн удирдлагыг хэрхэн хэрэгжүүлсэн бэ гэсэн асуудал юм. Бид цар тахлын үеийн менежментийн сорилтыг тодорхойлж, хүний нөөц, стратеги, бүтэц зохион байгуулалт, багийн удирдлагад гарсан өөрчлөлтийг олон улсын эх сурвалжид тулгуурлан судлах зорилго тавьсан.">
+        <p class="eyebrow"><b>02</b> СУДАЛГААНЫ ЗОРИЛГО</p>
+        <h1>Бид юуг<br><em>судлахаар зорив?</em></h1>
         <div class="goal-grid">
-          <p class="lead">Цар тахал бизнесийн орчныг үндсээр нь өөрчилж, менежментийн хуучин хэв маягийг сорьсон.</p>
+          <p class="lead"><strong>Судалгааны асуулт:</strong><br>Ковид-19 цар тахлын үед бизнесийн байгууллагууд өөрчлөлтийн удирдлагыг хэрхэн хэрэгжүүлсэн бэ?</p>
           <ul class="goal-list">
-            <li>Цар тахлын үеийн менежментийн сорилтыг тодорхойлох.</li>
-            <li>Хүний нөөц, стратеги, бүтэц зохион байгуулалтын өөрчлөлтийг судлах.</li>
-            <li>HBR, Gallup болон олон улсын судалгааны байгууллагын материалд тулгуурлах.</li>
+            <li>Цар тахлын үеийн менежментийн гол сорилтыг тодорхойлох.</li>
+            <li>Хүний нөөц, стратеги, бүтэц, багийн удирдлагын өөрчлөлтийг судлах.</li>
+            <li>Олон улсын судалгаа, нийтлэлд тулгуурлан байгууллагын хариу арга хэмжээг шинжлэх.</li>
           </ul>
         </div>
-        <p class="footnote">СУДАЛГААНЫ ЗОРИЛГО · ХҮНИЙ НӨӨЦ · СТРАТЕГИ · БҮТЭЦ</p>
+        <p class="footnote">СУДАЛГААНЫ АСУУЛТ → СОРИЛТЫГ ТОДОРХОЙЛОХ → ӨӨРЧЛӨЛТИЙГ ШИНЖЛЭХ</p>
       </section>
 
-      <section class="slide" id="slide-3" aria-label="3. Гол сорилтууд" hidden data-speaker="Илтгэгч" data-time="1:00–1:45" data-note="Энэ үед гурван том сорилт тулгарсан. Нэгдүгээрт, гэнэтийн өөрчлөлт, нийлүүлэлтийн сүлжээний тасалдалтай холбоотой тодорхой бус байдал. Хоёрдугаарт, зайнаас ажиллахад гэнэт шилжсэнээр үүссэн стресс, ачаалал, шаталт. Гуравдугаарт, дижитал дэд бүтцээ маш богино хугацаанд шинэчлэх хэрэгцээ. HBR болон Gallup-ын материалд хямралын үед ажилтнуудын сэтгэл зүйн аюулгүй байдал, уян хатан байдлыг чухалчилсныг онцолдог.">
-        <p class="eyebrow"><b>03</b> ЦАР ТАХЛЫН ҮЕИЙН СОРИЛТ</p>
+      <section class="slide" id="slide-3" aria-label="3. Гол сорилтууд" hidden data-speaker="С.Баярцэнгэл" data-time="1:00–1:45" data-note="Энэ үед гурван том сорилт тулгарсан. Нэгдүгээрт, гэнэтийн өөрчлөлт, нийлүүлэлтийн сүлжээний тасалдалтай холбоотой тодорхой бус байдал. Хоёрдугаарт, зайнаас ажиллахад гэнэт шилжсэнээр үүссэн стресс, ачаалал, шаталт. Гуравдугаарт, дижитал дэд бүтцээ маш богино хугацаанд шинэчлэх хэрэгцээ. HBR болон Gallup-ын материалд хямралын үед ажилтнуудын сэтгэл зүйн аюулгүй байдал, уян хатан байдлыг чухалчилсныг онцолдог.">
+        <p class="eyebrow"><b>03</b> СУДАЛГАА · ЦАР ТАХЛЫН СОРИЛТ</p>
         <h1>Байгууллагын өмнө тулгарсан<br><em>гурван сорилт</em></h1>
         <div class="cards">
           <article class="card">
@@ -726,8 +1215,8 @@
         <p class="footnote">ЭХ СУРВАЛЖ: HARVARD BUSINESS REVIEW · GALLUP</p>
       </section>
 
-      <section class="slide" id="slide-4" aria-label="4. Өөрчлөлтийн үндсэн чиглэлүүд" hidden data-speaker="Илтгэгч" data-time="1:45–2:30" data-note="Байгууллагууд гурван үндсэн чиглэлээр өөрчлөлт хийсэн. Нэгдүгээрт, зайнаас болон хосолсон ажилд шилжиж, хатуу хяналтаас илүү итгэлцэлд суурилсан нөхцөл байдлын удирдлага хэрэгжүүлсэн. Хоёрдугаарт, шийдвэр гаргах шат дамжлагыг богиносгож, үндсэн чадамж болон зардлын оновчлолд төвлөрсөн. Гуравдугаарт, үүлэн технологи, Zoom, Microsoft Teams, Slack болон автоматжуулалтыг шуурхай нэвтрүүлсэн.">
-        <p class="eyebrow"><b>04</b> ӨӨРЧЛӨЛТИЙН ҮНДСЭН ЧИГЛЭЛ</p>
+      <section class="slide" id="slide-4" aria-label="4. Өөрчлөлтийн үндсэн чиглэлүүд" hidden data-speaker="С.Баярцэнгэл · Ц.Түмэн-Очир" data-time="1:45–2:30" data-note="Байгууллагууд гурван үндсэн чиглэлээр өөрчлөлт хийсэн. Нэгдүгээрт, зайнаас болон хосолсон ажилд шилжиж, хатуу хяналтаас илүү итгэлцэлд суурилсан нөхцөл байдлын удирдлага хэрэгжүүлсэн. Хоёрдугаарт, шийдвэр гаргах шат дамжлагыг богиносгож, үндсэн чадамж болон зардлын оновчлолд төвлөрсөн. Гуравдугаарт, үүлэн технологи, Zoom, Microsoft Teams, Slack болон автоматжуулалтыг шуурхай нэвтрүүлсэн.">
+        <p class="eyebrow"><b>04</b> СУДАЛГАА · БАЙГУУЛЛАГЫН ӨӨРЧЛӨЛТ</p>
         <h1>Хүн · бүтэц · <em>технологи</em></h1>
         <div class="change-flow">
           <article class="change-step">
@@ -750,8 +1239,8 @@
         <p class="footnote">HR &amp; EMPLOYEE BEHAVIOR · STRATEGY · DIGITAL TRANSFORMATION</p>
       </section>
 
-      <section class="slide" id="slide-5" aria-label="5. Удирдлагын арга, загварууд" hidden data-speaker="Илтгэгч" data-time="2:30–4:30" data-note="Бид Коттерийн өөрчлөлтийн загвар болон Gallup-ын ажилтны оролцооны стратегийг авч үзлээ. Коттерийн хүрээнд өөрчлөлтийн яаралтай хэрэгцээг ойлгуулах, тодорхой алсын харааг тууштай түгээх нь чухал. Цар тахлыг зөвхөн аюул гэж харалгүй шинэ санаа, инновацийн боломж гэж үзсэн байгууллагууд хурдацтай өөрчлөгдөж чадсан. Мөн удирдлагууд ил тод, тогтмол харилцаж, ажилтнуудын санал хүсэлтийг сонсож, эргэх холбоо болон сэтгэл зүйн дэмжлэг үзүүлэх нь оролцоог бэхжүүлсэн.">
-        <p class="eyebrow"><b>05</b> УДИРДЛАГЫН АРГА БА ЗАГВАР</p>
+      <section class="slide" id="slide-5" aria-label="5. Удирдлагын арга, загварууд" hidden data-speaker="Б.Загдхүү" data-time="2:30–4:30" data-note="Бид Коттерийн өөрчлөлтийн загвар болон Gallup-ын ажилтны оролцооны стратегийг авч үзлээ. Коттерийн хүрээнд өөрчлөлтийн яаралтай хэрэгцээг ойлгуулах, тодорхой алсын харааг тууштай түгээх нь чухал. Цар тахлыг зөвхөн аюул гэж харалгүй шинэ санаа, инновацийн боломж гэж үзсэн байгууллагууд хурдацтай өөрчлөгдөж чадсан. Мөн удирдлагууд ил тод, тогтмол харилцаж, ажилтнуудын санал хүсэлтийг сонсож, эргэх холбоо болон сэтгэл зүйн дэмжлэг үзүүлэх нь оролцоог бэхжүүлсэн.">
+        <p class="eyebrow"><b>05</b> СУДАЛГАА · УДИРДЛАГЫН ЗАГВАР</p>
         <h1>Өөрчлөлтийг зорилготой<br><em>удирдах нь</em></h1>
         <div class="two-col">
           <article class="panel">
@@ -778,56 +1267,52 @@
         <p class="footnote">JOHN KOTTER · GALLUP WORKPLACE · АЖИЛТНЫ ОРОЛЦОО</p>
       </section>
 
-      <section class="slide" id="slide-6" aria-label="6. Үр дүн, сургамж ба дүгнэлт" hidden data-speaker="Илтгэгч" data-time="4:30–6:00" data-note="Эцэст нь, цар тахал байгууллагуудад зөвхөн өөрчлөлтөд бэлэн байх бус, шинэ боломжийг идэвхтэй эрэлхийлдэг соёл хэрэгтэйг санууллаа. Энэ хямрал хэдий хүнд сорилт байсан ч дижитал ур чадвар, уян хатан байдал, хүнийг төвд тавьсан удирдлагыг хэдэн жилийн өмнө урагшлуулсан. Мөн удирдагчдаас ухаалаг харилцаа, сэтгэл хөдлөлийн чадамж буюу EQ шаардагддагийг тод харууллаа.">
-        <p class="eyebrow"><b>06</b> ҮР ДҮН · СУРГАМЖ · ДҮГНЭЛТ</p>
-        <h1>Change-ready-гээс<br><em>Change-seeking соёл руу</em></h1>
-        <div class="lesson">Өөрчлөлтөд бэлэн байхаас гадна өөрчлөлт, шинэ боломжийг идэвхтэй эрэлхийлдэг байх хэрэгтэй.</div>
+      <section class="slide" id="slide-6" aria-label="6. Зорилготой холбосон дүгнэлт" hidden data-speaker="Ц.Баттөгөлдөр" data-time="4:30–6:00" data-note="Дүгнэлтээр зорилгодоо хүрсэн эсэхээ шалгавал тийм. Бид цар тахлын үеийн тодорхой бус байдал, ажилтны сэтгэл зүй, технологийн хоцрогдол зэрэг сорилтыг тодорхойлж, хүний нөөц, стратеги, бүтэц, дижитал шилжилтийн хариу арга хэмжээг судалсан. Судалгаанаас байгууллага өөрчлөлтөд бэлэн байхаас гадна шинэ боломжийг идэвхтэй эрэлхийлэх соёлтой байх нь чухал гэсэн дүгнэлтэд хүрлээ.">
+        <p class="eyebrow"><b>06</b> ЗОРИЛГОТОЙ ХОЛБОСОН ДҮГНЭЛТ</p>
+        <h1>Зорилгодоо<br><em>хүрсэн үү?</em></h1>
+        <div class="lesson">Тийм. Цар тахлын гол сорилтыг тодорхойлж, байгууллагын хүний нөөц, стратеги, бүтэц, дижитал өөрчлөлтийн хариу арга хэмжээг шинжиллээ.</div>
         <div class="conclusion">
-          <p class="lead">Ковид-19 нь дижитал ур чадвар, байгууллагын уян хатан байдал, хүнийг төвд тавьсан удирдлагын соёлыг эрчимжүүлэв.</p>
+          <p class="lead">Судалгааны зорилго биелсэн: олон улсын эх сурвалжид тулгуурлан менежментийн сорилт, хэрэгжүүлсэн өөрчлөлтийн үндсэн чиглэлүүдийг нэгтгэв.</p>
           <ul>
-            <li>Ухаалаг, тогтмол харилцаа</li>
-            <li>Ажилтны хэрэгцээ, сэтгэл зүйг ойлгох</li>
-            <li>Уян хатан бүтэц ба шийдвэр</li>
-            <li>Удирдагчийн сэтгэл хөдлөлийн чадамж (EQ)</li>
+            <li>Хүнийг төвд тавьсан, уян хатан удирдлага</li>
+            <li>Шуурхай шийдвэр ба дижитал шилжилт</li>
+            <li>Ил тод харилцаа, ажилтны оролцоо</li>
+            <li>Өөрчлөлт эрэлхийлдэг соёл</li>
           </ul>
         </div>
-        <p class="footnote">ГОЛ СУРГАМЖ: БАЙНГА СУРАЛЦАЖ, ДАСАН ЗОХИЦОХ СОЁЛ</p>
+        <p class="footnote">ДҮГНЭЛТ: ӨӨРЧЛӨЛТӨД БЭЛЭН БАЙХААС ГАДНА ШИНЭ БОЛОМЖИЙГ ЭРЭЛХИЙЛЭХ</p>
       </section>
 
-      <section class="slide" id="slide-7" aria-label="7. Багийн ажлын хуваарилалт" hidden data-speaker="Илтгэгч" data-time="6:00–6:30" data-note="Багийн гишүүдийн ажлын хуваарилалтыг харууллаа.">
-        <p class="eyebrow"><b>07</b> БАГИЙН АЖЛЫН ХУВААРИЛАЛТ</p>
+      <section class="slide references-slide" id="slide-7" aria-label="7. Ашигласан эх сурвалж, холбоосууд" hidden data-speaker="Э.Батдорж" data-time="6:00–6:30" data-note="Дээрх судалгаанд ашигласан эх сурвалжуудыг дугаарлан жагсаалаа. HBR болон Gallup-ийн материалын хамт судалгааны сангаас олдсон манлайлал, менежментийн судалгааг ашиглав.">
+        <p class="eyebrow"><b>07</b> АШИГЛАСАН ЭХ СУРВАЛЖ</p>
+        <h1>Эх сурвалж ба <em>холбоосууд</em></h1>
+        <p class="references-intro">Судалгаанд ашигласан олон улсын эх сурвалжууд</p>
+        <ol class="references sources">
+          <li><strong>Harvard Business Review.</strong> <i>Readiness Reimagined: How to Build a Change-Seeking Culture.</i> <a href="https://hbr.org/search?term=Readiness%20Reimagined%20How%20to%20Build%20a%20Change-Seeking%20Culture" target="_blank" rel="noopener noreferrer">hbr.org ↗</a></li>
+          <li><strong>Gallup Workplace.</strong> <i>Leading the Post-Pandemic Workplace &amp; Employee Engagement Strategies.</i> <a href="https://www.gallup.com/workplace/" target="_blank" rel="noopener noreferrer">gallup.com/workplace ↗</a></li>
+          <li><strong>PubMed.</strong> <i>Transformational Leadership During the COVID-19 Pandemic</i> сэдвийн судалгааны хайлт. <a href="https://pubmed.ncbi.nlm.nih.gov/?term=transformational+leadership+COVID-19+pandemic" target="_blank" rel="noopener noreferrer">PubMed ↗</a></li>
+          <li><strong>ScienceDirect.</strong> <i>The Effect of COVID-19 on Managerial Leadership Style</i> сэдвийн судалгааны хайлт. <a href="https://www.sciencedirect.com/search?qs=The%20effect%20of%20COVID-19%20on%20managerial%20leadership%20style" target="_blank" rel="noopener noreferrer">ScienceDirect ↗</a></li>
+        </ol>
+        <p class="footnote">ЭХ СУРВАЛЖИЙГ ДУГААРЛАН ЖАГСААВ · ХОЛБООС ДЭЭР ДАРЖ ҮЗНЭ ҮҮ</p>
+      </section>
+
+      <section class="slide" id="slide-8" aria-label="8. Багийн ажлын хуваарилалт" hidden data-speaker="А.Очирхүү" data-time="6:30–7:00" data-note="Илтгэлийн төгсгөлд багийн ажлын хуваарилалтыг тайлагналаа. Бүх гишүүн өөр өөр хэсгийг хариуцан нэгтгэж ажилласан. Анхаарал хандуулсанд баярлалаа.">
+        <p class="eyebrow"><b>08</b> БАГИЙН АЖЛЫН ХУВААРИЛАЛТ</p>
         <h1>Хамтын ажиллагаа,<br><em>нийтлэг үр дүн</em></h1>
         <table class="team-table">
           <thead>
             <tr><th>Д/д</th><th>Оюутны нэр</th><th>Гүйцэтгэсэн үүрэг, ажлын хэсэг</th><th>Оролцоо</th></tr>
           </thead>
           <tbody>
-            <tr><td>01</td><td>[Гишүүн 1-ийн нэр]</td><td>Гадаад болон HBR судалгааны материал цуглуулах, онолын хэсэг</td><td>100%</td></tr>
-            <tr><td>02</td><td>[Гишүүн 2-ийн нэр]</td><td>Ковид-19 үеийн хүний нөөц ба зан төлөвийн шинжилгээ</td><td>100%</td></tr>
-            <tr><td>03</td><td>[Гишүүн 3-ийн нэр]</td><td>Презентацийн дизайн, слайд зохион байгуулалт (MS PowerPoint)</td><td>100%</td></tr>
-            <tr><td>04</td><td>Ц.Түмэн-Очир</td><td>Ерөнхий нэгтгэл, стратеги ба дижитал шилжилт, танилцуулга</td><td>100%</td></tr>
+            <tr><td><span class="team-number">01</span></td><td>Э.Батдорж</td><td>Олон улсын болон HBR-ийн эх сурвалж цуглуулах, мэдээлэл нягтлах (слайд 7)</td><td><span class="participation">100%</span></td></tr>
+            <tr><td><span class="team-number">02</span></td><td>С.Баярцэнгэл</td><td>Хүний нөөц, ажилтны зан төлөв, зайны ажлын шинжилгээ (слайд 3, 4-ийн HR хэсэг)</td><td><span class="participation">100%</span></td></tr>
+            <tr><td><span class="team-number">03</span></td><td>А.Очирхүү</td><td>Презентацийн дизайн, слайдын зохион байгуулалт, нээлт ба багийн танилцуулга (слайд 1, 8)</td><td><span class="participation">100%</span></td></tr>
+            <tr><td><span class="team-number">04</span></td><td>Ц.Түмэн-Очир</td><td>Стратеги, бүтэц ба дижитал шилжилтийн хэсэг, ерөнхий нэгтгэл (слайд 4)</td><td><span class="participation">100%</span></td></tr>
+            <tr><td><span class="team-number">05</span></td><td>Б.Загдхүү</td><td>Коттерийн өөрчлөлтийн загвар, Gallup-ын ажилтны оролцооны хэсэг (слайд 5)</td><td><span class="participation">100%</span></td></tr>
+            <tr><td><span class="team-number">06</span></td><td>Ц.Баттөгөлдөр</td><td>Судалгааны зорилго, гол сургамж ба дүгнэлт, 7 минутын ярианы тэмдэглэл (слайд 2, 6)</td><td><span class="participation">100%</span></td></tr>
           </tbody>
         </table>
         <p class="footnote">АНХААРАЛ ХАНДУУЛСАНД БАЯРЛАЛАА · АСУУЛТ БАЙНА УУ?</p>
-      </section>
-
-      <section class="slide references-slide" id="slide-8" aria-label="8. Ашигласан эх сурвалж, холбоосууд" hidden data-speaker="Илтгэгч" data-time="6:30–7:00" data-note="COVID-19 илтгэл болон үндсэн танилцуулгад ашигласан бүх эх сурвалжийн холбоосыг энд нэгтгэлээ.">
-        <p class="eyebrow"><span>08</span> АШИГЛАСАН ЭХ СУРВАЛЖ / ХОЛБООСУУД</p>
-        <h1>Эх сурвалж ба <em>холбоосууд</em></h1>
-        <ol class="references sources">
-          <li><strong>Harvard Business Review.</strong> <i>Readiness Reimagined: How to Build a Change-Seeking Culture.</i> <a href="https://hbr.org/search?term=Readiness%20Reimagined%20How%20to%20Build%20a%20Change-Seeking%20Culture" target="_blank" rel="noopener noreferrer">hbr.org ↗</a></li>
-          <li><strong>Gallup Workplace.</strong> <i>Leading the Post-Pandemic Workplace &amp; Employee Engagement Strategies.</i> <a href="https://www.gallup.com/workplace/" target="_blank" rel="noopener noreferrer">gallup.com/workplace ↗</a></li>
-          <li><strong>PubMed.</strong> <i>Transformational Leadership During the COVID-19 Pandemic.</i> <a href="https://pubmed.ncbi.nlm.nih.gov/?term=transformational+leadership+COVID-19+pandemic" target="_blank" rel="noopener noreferrer">PubMed хайлт ↗</a></li>
-          <li><strong>ScienceDirect.</strong> <i>The Effect of COVID-19 on Managerial Leadership Style.</i> <a href="https://www.sciencedirect.com/search?qs=The%20effect%20of%20COVID-19%20on%20managerial%20leadership%20style" target="_blank" rel="noopener noreferrer">ScienceDirect хайлт ↗</a></li>
-          <li>Herzberg et al. (1959). <i>The Motivation to Work.</i> <a href="https://find.library.upenn.edu/catalog/9931926443503681" target="_blank" rel="noopener noreferrer">Номын бүртгэл ↗</a></li>
-          <li>Judge et al. (2001). <i>The Job Satisfaction–Job Performance Relationship.</i> <a href="https://doi.org/10.1037/0033-2909.127.3.376" target="_blank" rel="noopener noreferrer">doi:10.1037/0033-2909.127.3.376 ↗</a></li>
-          <li>Locke &amp; Latham (2002). <i>Goal Setting and Task Motivation.</i> <a href="https://doi.org/10.1037/0003-066X.57.9.705" target="_blank" rel="noopener noreferrer">doi:10.1037/0003-066X.57.9.705 ↗</a></li>
-          <li>Gagné &amp; Deci (2005). <i>Self-Determination Theory and Work Motivation.</i> <a href="https://doi.org/10.1002/job.322" target="_blank" rel="noopener noreferrer">doi:10.1002/job.322 ↗</a></li>
-          <li>Amabile &amp; Kramer (2011). <i>The Power of Small Wins.</i> <a href="https://hbr.org/2011/05/the-power-of-small-wins" target="_blank" rel="noopener noreferrer">HBR нийтлэл ↗</a></li>
-          <li>Bloom et al. (2015). <i>Does Working from Home Work?</i> <a href="https://doi.org/10.1093/qje/qju032" target="_blank" rel="noopener noreferrer">doi:10.1093/qje/qju032 ↗</a></li>
-          <li>Grant (2008). <i>The Significance of Task Significance.</i> <a href="https://doi.org/10.1037/0021-9010.93.1.108" target="_blank" rel="noopener noreferrer">doi:10.1037/0021-9010.93.1.108 ↗</a></li>
-        </ol>
-        <p class="footnote">ЭХ СУРВАЛЖИЙН НЭР ДЭЭР ДАРЖ ҮНДСЭН ХОЛБООСЫГ НЭЭНЭ</p>
       </section>
     </div>
     <footer class="controls">
@@ -872,6 +1357,8 @@
         current = Math.max(0, Math.min(slides.length - 1, index));
         slides.forEach((slide, i) => { slide.hidden = i !== current; });
         const slide = slides[current];
+        document.querySelector("#prev").setAttribute("aria-controls", slide.id);
+        document.querySelector("#next").setAttribute("aria-controls", slide.id);
         counter.textContent = `${String(current + 1).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")}`;
         progress.style.width = `${((current + 1) / slides.length) * 100}%`;
         document.querySelector("#prev").disabled = current === 0;
@@ -907,15 +1394,21 @@
           return;
         }
         if (event.altKey || event.ctrlKey || event.metaKey) return;
-        if (["ArrowRight", "PageDown", " "].includes(event.key)) {
+        const target = event.target;
+        if (target instanceof Element && target.closest("input, textarea, select, [contenteditable='true']")) return;
+        if (event.key === " " && target instanceof Element && target.closest("button, a")) return;
+        const isMobile = matchMedia("(max-width: 760px)").matches;
+        if (event.key === "ArrowRight" || (!isMobile && event.key === "PageDown") || event.key === " ") {
           event.preventDefault();
           show(current + 1);
-        } else if (["ArrowLeft", "PageUp"].includes(event.key)) {
+        } else if (event.key === "ArrowLeft" || (!isMobile && event.key === "PageUp")) {
           event.preventDefault();
           show(current - 1);
         } else if (event.key === "Home") {
+          event.preventDefault();
           show(0);
         } else if (event.key === "End") {
+          event.preventDefault();
           show(slides.length - 1);
         } else if (event.key.toLowerCase() === "n") {
           openNotes();
